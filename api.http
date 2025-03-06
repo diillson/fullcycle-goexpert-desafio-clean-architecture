@@ -1,0 +1,80 @@
+### REST API ###
+
+# Listar Orders (REST)
+GET http://localhost:8080/order
+Accept: application/json
+
+### Criar Order (REST)
+POST http://localhost:8080/order
+Content-Type: application/json
+
+{
+  "customer_id": 1,
+  "amount": 150.50,
+  "status": "pending"
+}
+
+### GraphQL API ###
+
+### Listar Orders (GraphQL)
+POST http://localhost:8081/query
+Content-Type: application/json
+
+{
+  "query": "query { listOrders { id customerId amount status createdAt } }"
+}
+
+### Criar Order (GraphQL)
+POST http://localhost:8081/query
+Content-Type: application/json
+
+{
+  "query": "mutation createOrder($input: CreateOrderInput!) { createOrder(input: $input) { id customerId amount status createdAt } }",
+  "variables": {
+    "input": {
+      "customerId": 1,
+      "amount": 150.50,
+      "status": "pending"
+    }
+  }
+}
+
+### gRPC (usando grpcurl) ###
+# Para testar gRPC, execute estes comandos no terminal:
+
+# Listar serviços disponíveis
+# grpcurl -plaintext localhost:50051 list
+
+# Listar Orders
+# grpcurl -plaintext localhost:50051 order.OrderService/ListOrders
+
+# Criar Order
+# grpcurl -plaintext -d '{"customer_id": 1, "amount": 150.50, "status": "pending"}' localhost:50051 order.OrderService/CreateOrder
+
+### Exemplos de respostas esperadas ###
+
+# REST LIST response:
+# [
+#   {
+#     "id": 1,
+#     "customer_id": 1,
+#     "amount": 150.50,
+#     "status": "pending",
+#     "created_at": "2023-08-16T10:00:00Z"
+#   }
+# ]
+
+# GraphQL LIST response:
+# {
+#   "data": {
+#     "listOrders": [
+#       {
+#         "id": "1",
+#         "customerId": 1,
+#         "amount": 150.50,
+#         "status": "pending",
+#         "createdAt": "2023-08-16T10:00:00Z"
+#       }
+#     ]
+#   }
+# }
