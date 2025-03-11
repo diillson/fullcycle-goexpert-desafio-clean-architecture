@@ -18,12 +18,14 @@ COPY entrypoint.sh /entrypoint.sh
 # Dá permissão de execução ao entrypoint
 RUN chmod +x /entrypoint.sh
 
+# Garante as dependencias do projeto
+RUN go mod download
+
 # Gera os arquivos do gRPC e GraphQL
 RUN protoc --go_out=. --go-grpc_out=. internal/grpc/proto/order.proto
 RUN go run github.com/99designs/gqlgen generate
 
 # Compila a aplicação
-RUN go mod download
 RUN go build -o main ./cmd/server/main.go
 
 # Expõe as portas necessárias
