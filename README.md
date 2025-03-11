@@ -11,7 +11,7 @@ Pré-requisitos
 
     Docker
     Docker Compose
-    Go 1.19 ou superior (para desenvolvimento local)
+    PS: [TESTADO COM] Go 1.24 ou superior (para desenvolvimento local)
     make (opcional, para comandos de conveniência)
 
 Tecnologias Utilizadas
